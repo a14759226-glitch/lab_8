@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Выбор валют - Currency Tracker{% endblock %}
+
+{% block content %}
+<div class="step-indicator">
+    <div class="step completed">1</div>
+    <div class="step active">2</div>
+    <div class="step">3</div>
+</div>
+
+<h2>Выберите валюты для отслеживания</h2>
+<p>Отметьте валюты, курсы которых вы хотите отслеживать</p>
+
+{% if message %}
+<div class="alert alert-{{ message_type }}">{{ message }}</div>
+{% endif %}
+
+<form method="POST">
+    <div class="currency-grid">
+        {% for currency in available_currencies %}
+        <div class="currency-card {% if currency in selected_currencies %}selected{% endif %}"
+             onclick="toggleCurrency('{{ currency }}')">
+            <label style="cursor: pointer; display: block;">
+                <input type="checkbox" name="currencies" value="{{ currency }}"
+                       {% if currency in selected_currencies %}checked{% endif %}
+                       style="display: none;">
+                {{ currency }}
+            </label>
+        </div>
+        {% endfor %}
+    </div>
+
+    <button type="submit" class="btn {% if saved %}btn-success{% endif %}">
+        {% if saved %}✓ Подписки сохранены!{% else %}Сохранить выбор{% endif %}
+    </button>
+
+    {% if saved %}
+    <div style="margin-top: 20px;">
+        <a href="/subscriptions" class="btn">Перейти к моим подпискам →</a>
+    </div>
+    {% endif %}
+</form>
+
+<script>
+function toggleCurrency(currency) {
+    const checkbox = document.querySelector(`input[value="${currency}"]`);
+    checkbox.checked = !checkbox.checked;
+    const card = checkbox.closest('.currency-card');
+    card.classList.toggle('selected');
+}
+</script>
+{% endblock %}

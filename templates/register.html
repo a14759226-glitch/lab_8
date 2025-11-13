@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Регистрация - Currency Tracker{% endblock %}
+
+{% block content %}
+<div class="step-indicator">
+    <div class="step active">1</div>
+    <div class="step">2</div>
+    <div class="step">3</div>
+</div>
+
+<h2>Регистрация пользователя</h2>
+<p>Заполните форму для создания аккаунта</p>
+
+{% if message %}
+<div class="alert alert-{{ message_type }}">{{ message }}</div>
+{% endif %}
+
+<form method="POST">
+    <div class="form-group">
+        <label for="name">Имя:</label>
+        <input type="text" id="name" name="name" required value="{{ name }}">
+    </div>
+
+    <div class="form-group">
+        <label for="age">Возраст:</label>
+        <input type="number" id="age" name="age" required min="16" value="{{ age }}">
+    </div>
+
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required value="{{ email }}">
+    </div>
+
+    <button type="submit" class="btn {% if registered %}btn-success{% endif %}">
+        {% if registered %}✓ Успешно зарегистрировано!{% else %}Зарегистрироваться{% endif %}
+    </button>
+
+    {% if registered %}
+    <div style="margin-top: 20px;">
+        <a href="/currencies" class="btn">Перейти к выбору валют →</a>
+    </div>
+    {% endif %}
+</form>
+{% endblock %}
